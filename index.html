@@ -38,6 +38,7 @@
     border-radius: 20px;
     border: none;
     margin: 0 10px;
+    transition: all 0.3s ease; /* Added transition for smooth scaling */
   }
   #yesButton {
     background-color: #4CAF50; /* Green */
@@ -94,27 +95,30 @@
     responseText.textContent = text;
   }
 
-  function getRandomPosition() {
-    const maxWidth = window.innerWidth - 100; // Adjust according to the button's width
-    const maxHeight = window.innerHeight - 100; // Adjust according to the button's height
-    const randomX = Math.floor(Math.random() * maxWidth);
-    const randomY = Math.floor(Math.random() * maxHeight);
-    return { x: randomX, y: randomY };
-  }
-
   function handleYesClick() {
-    showResponse("Yay! I love you! 💘");
+    showResponse("Yay! I love you!💘");
     noButton.textContent = "No";
     noButtonClicks = 0;
     noButton.classList.remove('moved');
+    // Resetting button size
+    yesButton.style.fontSize = "16px";
   }
 
   function handleNoClick() {
-    const noButtonTexts = ["Are you sure?", "Please reconsider", "Pretty please", "Sorry but yes is the only answer"];
-    noButtonClicks++;
-    if (responseText.textContent === "Yay! I love you!") {
-      responseText.textContent = "";
+    const noButtonTexts = [
+      "Are you sure? 😔", 
+      "Please change your mind 👀", 
+      "Are you sure about that? 🧐", 
+      "What if ilibre kita? 😝", 
+      "Kahit i-kiss kita? 🥺👉👈",
+      "Please reconsider 😥",
+      "Pretty please 🥺" ,
+      "Sorry but yes is the only answer 🙄"
+    ];
+    if (responseText.textContent === "Yay! I love you!💘") {
+      responseText.textContent = " ";
     }
+    noButtonClicks++;
     if (noButtonClicks === 1) {
       noButton.style.left = '10%';
       noButton.style.top = '10%';
@@ -125,12 +129,24 @@
       noButton.style.left = '10%';
       noButton.style.top = '90%';
     } else if (noButtonClicks === 4) {
+      noButton.style.left = '10%';
+      noButton.style.top = '90%';
+    } else if (noButtonClicks === 5) {
+      noButton.style.left = '10%';
+      noButton.style.top = '90%';
+    } else if (noButtonClicks === 6) {
+      noButton.style.left = '10%';
+      noButton.style.top = '90%';
+    } else if (noButtonClicks === 7) {
+      noButton.style.left = '10%';
+      noButton.style.top = '90%';
+    } else if (noButtonClicks === 8) {
       noButton.style.left = '50%';
       noButton.style.top = '50%';
       noButton.classList.remove('moved');
       noButtonClicks = 0;
     }
-    if (noButtonClicks === 4) {
+    if (noButtonClicks === 8) {
       noButton.classList.remove('moved');
     } else {
       noButton.classList.add('moved');
@@ -147,10 +163,31 @@
     if (noButtonTexts[noButton.dataset.index] === "Sorry but yes is the only answer") {
       delete noButton.dataset.index;
     }
+    // Increase button size on No click
+    yesButton.style.fontSize = (16 + noButtonClicks * 10000) + "px";
   }
 
-  yesButton.addEventListener('click', handleYesClick);
-  noButton.addEventListener('click', handleNoClick);
+  function getRandomPosition() {
+    const maxWidth = window.innerWidth - 100; // Adjust according to the button's width
+    const maxHeight = window.innerHeight - 100; // Adjust according to the button's height
+    const randomX = Math.floor(Math.random() * maxWidth);
+    const randomY = Math.floor(Math.random() * maxHeight);
+    return { x: randomX, y: randomY };
+  }
+
+  // Increase button size on Yes and No click
+  function increaseButtonSize() {
+    yesButton.style.fontSize = (16 + noButtonClicks * 2) + "px";
+  }
+
+  yesButton.addEventListener('click', () => {
+    handleYesClick();
+    increaseButtonSize(); // Call the function to increase button size on Yes click
+  });
+  noButton.addEventListener('click', () => {
+    handleNoClick();
+    increaseButtonSize(); // Call the function to increase button size on No click
+  });
 </script>
 
 </body>
